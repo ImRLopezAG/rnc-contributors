@@ -12,7 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      PORT: 3000
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -20,6 +22,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
+
+      - name: CREATE .env file
+        run: echo "PORT=$PORT" >> .env
+        run: echo "DATABASE_URL=$DATABASE_URL" >> .env
 
       - name: npm install, build, and test
         run: |
