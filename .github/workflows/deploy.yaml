@@ -57,6 +57,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           publish-profile: ${{ secrets.AZ_PUBLISH_PROFILE }}
-          app-name: 'node-api'
+          app-name: node-api
           slot-name: 'Production'
           package: .
