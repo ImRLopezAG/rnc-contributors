@@ -21,7 +21,7 @@ serve(
   },
   (address) => {
     console.log(
-      `🔥 Hono Middleware listening on http://localhost:${address.port}`
+      `🔥 Hono server listening on http://localhost:${address.port}`
     );
   }
 );
