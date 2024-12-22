@@ -25,6 +25,8 @@ jobs:
 
       - name: CREATE .env file
         run: echo "PORT=$PORT" >> .env
+
+      - name: ADD DATABASE_URL to .env file
         run: echo "DATABASE_URL=$DATABASE_URL" >> .env
 
       - name: npm install, build, and test
