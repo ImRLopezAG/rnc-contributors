@@ -67,5 +67,5 @@ jobs:
           publish-profile: ${{ secrets.AZ_PUBLISH_PROFILE }}
           app-name: node-api
           slot-name: 'Production'
-          startUpCommand: 'npm run start'
+          startup-command: 'npm run start'
           package: .
