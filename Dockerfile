@@ -9,7 +9,10 @@ WORKDIR /usr/src/app
 
 # Install pnpm.
 RUN --mount=type=cache,target=/root/.npm \
-    npm install -g pnpm@${PNPM_VERSION}
+    npm install -g pnpm@${PNPM_VERSION} 
+
+#Update npm
+# RUN npm install -g npm@latest
 
 FROM base as deps
 
@@ -38,7 +41,7 @@ COPY package.json .
 
 
 COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/lib ./lib
+COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/.env ./.env
 COPY ./src/db/data.db /usr/src/app/src/db/data.db
 
@@ -50,6 +53,5 @@ RUN chmod 777 /usr/src/app/src/db/data.db
 
 # Expose the port that the application listens on.
 EXPOSE 3000
-
 # Run the application.
 CMD pnpm start
