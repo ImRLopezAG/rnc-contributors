@@ -8,6 +8,5 @@ export default defineConfig({
   schema: './src/db/*.model.ts',
   dbCredentials: {
     url: DATABASE_URL,
-    
   },
 });

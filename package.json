@@ -1,9 +1,13 @@
 {
   "name": "rnc-extractor",
   "type": "module",
+  "dist": {
+    "dir": "dist",
+    "main": "index.js"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "build && node  lib/index.js",
+    "start": "npm run build && node  dist/index.js",
     "build": "tsup",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
