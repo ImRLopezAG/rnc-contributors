@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.17.10",
+    "@vercel/node": "^5.0.0",
     "bun-vercel": "^1.0.0-alpha.5",
     "drizzle-kit": "^0.30.1",
     "tsx": "^4.19.2",
