@@ -4,8 +4,6 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { handle } from 'hono/vercel';
 
-export const runtime = 'edge';
-
 const app = new OpenAPIHono();
 app.use(cors());
 app.use(logger());
