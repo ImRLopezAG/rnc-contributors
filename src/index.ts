@@ -14,14 +14,7 @@ app.get('/', (c) => {
   return c.redirect('/api');
 })
 
-serve(
-  {
-    fetch: app.fetch,
-    port,
-  },
-  (address) => {
-    console.log(
-      `🔥 Hono server listening on http://localhost:${address.port}`
-    );
-  }
-);
+export default {
+  port,
+  fetch: app.fetch
+}
