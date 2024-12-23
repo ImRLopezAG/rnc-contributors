@@ -1,11 +1,10 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "name": "rnc-extractor",
   "version": 2,
   "builds": [
     {
       "src": "src/index.ts",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["*/**"]}
     }
   ],
   "routes": [
@@ -13,8 +12,5 @@
       "src": "/(.*)",
       "dest": "src/index.ts"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
