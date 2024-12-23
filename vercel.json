@@ -1,12 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "functions": {
-    "src/**/*.{ts,js}": {
-      "includeFiles": "src/**/*",
-      "runtime": "vercel-node@22.0.0"
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",
