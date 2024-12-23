@@ -7,7 +7,6 @@
   },
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "start": "tsconfig-paths -p tsconfig.json dist/index.js",
     "build": "bun-vercel ./src/index.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
