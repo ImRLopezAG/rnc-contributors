@@ -1,7 +1,7 @@
-import { env } from '@config/env.js';
+import { env } from '@config/env';
 import { serve } from '@hono/node-server';
 import { OpenAPIHono } from '@hono/zod-openapi';
-import { api } from '@controllers/doc-controller.js';
+import { api } from '@controllers/doc-controller';
 import { cors } from 'hono/cors';
 
 const { PORT: port } = env();
