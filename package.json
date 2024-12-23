@@ -1,38 +1,41 @@
 {
-  "name": "rnc-extractor",
-  "type": "module",
-  "dist": {
-    "dir": "dist",
-    "main": "index.js"
-  },
+  "name": "rnc-contributors",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "bun --watch src/index.ts",
-    "build": "bun-vercel ./src/index.ts",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@hono/node-server": "^1.13.7",
     "@hono/swagger-ui": "^0.5.0",
     "@hono/zod-openapi": "^0.18.3",
     "@libsql/client": "^0.14.0",
     "@scalar/hono-api-reference": "^0.5.165",
-    "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.2",
     "drizzle-zod": "^0.6.0",
     "hono": "^4.6.14",
+    "next": "15.1.2",
     "node-cache": "^5.1.2",
-    "tsconfig-paths": "^4.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@types/node": "^20.17.10",
-    "@vercel/node": "^5.0.0",
-    "bun-vercel": "^1.0.0-alpha.5",
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
     "drizzle-kit": "^0.30.1",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5"
   }
 }

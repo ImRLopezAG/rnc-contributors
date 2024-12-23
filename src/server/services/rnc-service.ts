@@ -1,8 +1,9 @@
-import { db } from '@/db';
+import { db } from '@server/db';
 import { cache } from '@config/cache';
 import { rncPaginationSchema } from '@config/schemas';
 import { contributors, contributorSchema } from '@db/contributors.model';
 import type { z } from '@hono/zod-openapi';
+
 type RNCContributor = z.infer<typeof contributorSchema>;
 type Pagination = z.infer<typeof rncPaginationSchema>;
 
@@ -91,8 +92,6 @@ export const rncService = () => ({
       offset: page,
       limit,
     });
-    const start = (page - 1) * limit;
-    const end = start + limit;
     const pagination = {
       total: contributors.length,
       totalPages: Math.ceil(contributors.length / limit),
