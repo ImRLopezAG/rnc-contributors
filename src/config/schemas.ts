@@ -171,3 +171,48 @@ export const updateFileSchema = createRoute({
     },
   },
 });
+
+export const contributorsByNameSchema = createRoute({
+  name: 'Get contributors by name',
+  method: 'get',
+  path: '/name/{name}',
+  description: 'Returns contributors by name',
+  summary: 'Get contributors by name',
+  tags: ['contributors'],
+  request: {
+    params: z.object({
+      name: z.string().default(''),
+    }),
+    query: z.object({
+      page: z.string().default('1'),
+      limit: z.string().default('10'),
+    }),
+  },
+  responses: {
+    200: {
+      description: 'OK',
+      content: {
+        'application/json': {
+          schema: rncPaginationSchema,
+        },
+      },
+    },
+    400: {
+      description: 'Bad Request',
+      summary: 'Name is required',
+    },
+    404: {
+      description: 'Not Found',
+    },
+    500: {
+      description: 'Internal Server Error',
+      content: {
+        'application/json': {
+          schema: z.object({
+            error: z.string().default('Internal Server Error'),
+          }),
+        },
+      },
+    },
+  },
+});

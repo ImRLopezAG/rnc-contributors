@@ -92,14 +92,7 @@ export const rncService = () => ({
       offset: page,
       limit,
     });
-    const pagination = {
-      total: contributors.length,
-      totalPages: Math.ceil(contributors.length / limit),
-      currentPage: page,
-      prevPage: page > 1 ? page - 1 : null,
-      nextPage: page < Math.ceil(contributors.length / limit) ? page + 1 : null,
-      data: contributors,
-    };
+    const pagination = rncService().createPagination(contributors, page, limit);
     cache.set(CACHE_KEY, pagination);
     return pagination;
   },
@@ -120,6 +113,23 @@ export const rncService = () => ({
       status: 'ok',
       contributors: total,
     };
+  },
+  findByName: async (name: string, page: number,
+    limit: number): Promise<Pagination> => {
+    await rncService().pingData();
+    const CACHE_KEY = `contributors:${name}:${page}:${limit}`;
+    const cachedData = cache.get<Pagination>(CACHE_KEY);
+    if (cachedData) {
+      return cachedData;
+    }
+    const contributors = await db.query.contributors.findMany({
+      where: ({ social_reason: db_name }, { like }) => like(db_name, `${name.toUpperCase()}%`),
+      offset: page,
+      limit
+    });
+    const pagination = rncService().createPagination(contributors, page, limit);
+    cache.set(CACHE_KEY, pagination);
+    return pagination;
   },
   updateContributorsFile: async (data: string) => {
     const splitDataInChunks = (data: RNCContributor[], chunkSize: number) => {
@@ -152,5 +162,18 @@ export const rncService = () => ({
     if (ping_data === 0) {
       throw new Error('Data is empty');
     }
+  },
+  createPagination: (data: RNCContributor[], page: number, limit: number): Pagination => {
+    const start = (page - 1) * limit;
+    const end = page * limit;
+    const totalPages = Math.ceil(data.length / limit);
+    return {
+      total: data.length,
+      totalPages,
+      currentPage: page,
+      prevPage: page > 1 ? page - 1 : null,
+      nextPage: page < totalPages ? page + 1 : null,
+      data: data.slice(start, end),
+    };
   }
 });

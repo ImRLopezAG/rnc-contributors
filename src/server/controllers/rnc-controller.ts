@@ -2,6 +2,7 @@ import { cache } from '@config/cache';
 
 import {
   contributorByRncSchema,
+  contributorsByNameSchema,
   contributorsPaginationSchema,
   updateFileSchema,
 } from '@config/schemas';
@@ -54,10 +55,7 @@ contributorsRouter.openapi(contributorByRncSchema, async (c) => {
     const contributor = await rncService().getContributor(rnc);
 
     if (!contributor) {
-      return c.json(
-        { error: `Contributor with RNC ${rnc} not found` as string },
-        404
-      );
+      return c.json({ error: `Contributor with RNC ${rnc} not found` }, 404);
     }
 
     cache.set(cacheKey, contributor);
@@ -90,6 +88,33 @@ contributorsRouter.openapi(updateFileSchema, async (c) => {
     console.log(file);
     await rncService().updateContributorsFile(await file.text());
     return c.json({ message: 'File received' });
+  } catch (error) {
+    if (error instanceof Error) {
+      return c.json({ error: error.message }, 500);
+    }
+    return c.json({ error: 'Internal Server Error' }, 500);
+  }
+});
+
+contributorsRouter.openapi(contributorsByNameSchema, async (c) => {
+  try {
+    const { name } = c.req.param();
+    const { page, limit } = c.req.query();
+    if (!name) {
+      return c.json({ error: 'Name is required' }, 400);
+    }
+
+    if (!page || !limit) {
+      return c.json({ error: 'Page and limit are required' }, 400);
+    }
+
+    const contributors = await rncService().findByName(name, Number(page), Number(limit));
+
+    if (contributors.data.length === 0) {
+      return c.json({ error: `Contributor with name ${name} not found` }, 404);
+    }
+
+    return c.json(contributors);
   } catch (error) {
     if (error instanceof Error) {
       return c.json({ error: error.message }, 500);
