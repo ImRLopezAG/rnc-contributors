@@ -1,6 +1,4 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "name": "rnc-extractor",
   "version": 2,
   "builds": [
     {
