@@ -11,6 +11,15 @@ export const rncPaginationSchema = z.object({
   data: z.array(contributorSchema),
 });
 
+const FileRequestSchema = z.object({
+  file: z
+    .custom<File>((v) => v instanceof File)
+    .openapi({
+      type: 'string',
+      format: 'binary',
+    }),
+})
+
 export const contributorByRncSchema = createRoute({
   name: 'Get contributor by RNC',
   method: 'get',
@@ -127,9 +136,13 @@ export const updateFileSchema = createRoute({
   summary: 'Update DGII file to update contributors database',
   tags: ['contributors'],
   request: {
-    query: z.object({
-      seed: z.boolean().default(true)
-    })
+    body: {
+      content: {
+        'multipart/form-data': {
+          schema: FileRequestSchema,
+        },
+      },
+    }
   },
   responses: {
     200: {
