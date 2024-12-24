@@ -20,21 +20,11 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@config/*": [
-        "./src/config/*"
-      ],
-      "@services/*": [
-        "./src/server/services/*"
-      ],
-      "@controllers/*": [
-        "./src/server/controllers/*"
-      ],
-      "@db/*": [
-        "./src/server/db/*"
-      ],
-      "@server/*": [
-        "./src/server/*"
-      ],
+      "@config/*": ["./src/config/*"],
+      "@services/*": ["./src/server/services/*"],
+      "@controllers/*": ["./src/server/controllers/*"],
+      "@db/*": ["./src/server/db/*"],
+      "@server/*": ["./src/server/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
