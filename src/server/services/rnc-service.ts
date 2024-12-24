@@ -115,8 +115,8 @@ export const rncService = () => ({
     }
     const SEARCH_NAME = `%${name}%`
     const data = await db.query.contributors.findMany({
-      where: ({ social_reason: db_social_reason }, { ilike }) =>
-        ilike(db_social_reason, SEARCH_NAME),
+      where: ({ social_reason: db_social_reason }, { like }) =>
+        like(db_social_reason, SEARCH_NAME),
     })
     const paginatedData = data.slice((page - 1) * limit, page * limit)
     const pagination = rncService().createPagination(paginatedData, page, limit)
