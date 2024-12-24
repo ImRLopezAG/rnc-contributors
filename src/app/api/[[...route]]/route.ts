@@ -11,3 +11,11 @@ app.route('', api)
 
 export const GET = handle(app)
 export const POST = handle(app)
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '200mb'
+    }
+  }
+}

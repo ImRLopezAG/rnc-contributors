@@ -67,7 +67,7 @@ contributorsRouter.openapi(contributorsByNameSchema, async (c) => {
     )
 
     if (contributors.data.length === 0)
-      return c.json({ error: 'Contributor not found' }, 404)
+      return c.json({ error: `Contributors with name ${name} not found` }, 404)
 
     return c.json(contributors, 200)
   } catch (error) {
@@ -87,7 +87,7 @@ contributorsRouter.openapi(updateFileSchema, async (c) => {
     if (typeof file === 'string') {
       return c.json({ error: 'Invalid file' }, 400)
     }
-    if (['text/csv', 'plain/text'].every((type) => type !== file.type)) {
+    if (['text/csv', 'text/plain'].every((type) => type !== file.type)) {
       return c.json({ error: `Invalid file type: ${file.type}` }, 400)
     }
     await rncService().updateContributorsFile(await file.text())

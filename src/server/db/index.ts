@@ -1,7 +1,15 @@
 import { env } from '@config/env'
 import { createClient } from '@libsql/client'
-import { drizzle } from 'drizzle-orm/libsql/web'
+import { drizzle } from 'drizzle-orm/libsql'
 import * as schema from './contributors.model'
+import { DefaultLogger, LogWriter } from 'drizzle-orm';
+
+class MyLogWriter implements LogWriter {
+  write(message: string) {
+    console.log(message);
+  }
+}
+const logger = new DefaultLogger({ writer: new MyLogWriter() });
 
 const { DATABASE_URL, DB_AUTH_TOKEN } = env()
 
@@ -12,7 +20,8 @@ const client = createClient({
 
 export const db = drizzle({
   client,
-  schema
+  schema,
+  logger
 })
 
 export { schema }

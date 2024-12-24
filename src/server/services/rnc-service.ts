@@ -3,7 +3,6 @@ import { rncPaginationSchema } from '@controllers/schemas'
 import { contributors, contributorSchema } from '@db/contributors.model'
 import type { z } from '@hono/zod-openapi'
 import { db } from '@server/db'
-import { like } from 'drizzle-orm'
 
 type RNCContributor = z.infer<typeof contributorSchema>
 type Pagination = z.infer<typeof rncPaginationSchema>
@@ -33,10 +32,10 @@ const sanitize = (data: string): string => {
 export const rncService = () => ({
   getContributors: (fileData: string): Map<string, RNCContributor> => {
     const data = csvReader(fileData, '|')
-    .map(([rnc, socialReason, alias, economicActivity, , , , sinceDate, status, paymentType]) => ({
+    .map(([rnc, socialReason, commercial_name, economicActivity, , , , , sinceDate, status, paymentType]) => ({
       rnc: sanitize(rnc),
       social_reason: sanitize(socialReason),
-      alias: sanitize(alias),
+      commercial_name: sanitize(commercial_name),
       economic_activity: sanitize(economicActivity),
       since_date: sanitize(sinceDate),
       status: sanitize(status),
@@ -114,16 +113,14 @@ export const rncService = () => ({
     if (cachedData) {
       return cachedData
     }
-    const SEARCH_NAME = name.toUpperCase()
-    const data = await db
-      .select()
-      .from(contributors)
-      .where(like(contributors.social_reason, SEARCH_NAME))
-      .limit(limit)
-      .offset(page)
-
-    const pagination = rncService().createPagination(data, page, limit)
-    cache.set(CACHE_KEY, pagination)
+    const SEARCH_NAME = `%${name}%`
+    const data = await db.query.contributors.findMany({
+      where: ({ social_reason: db_social_reason }, { ilike }) =>
+        ilike(db_social_reason, SEARCH_NAME),
+    })
+    const paginatedData = data.slice((page - 1) * limit, page * limit)
+    const pagination = rncService().createPagination(paginatedData, page, limit)
+    if (data.length > 0) cache.set(CACHE_KEY, pagination)
     return pagination
   },
   updateContributorsFile: async (data: string) => {
