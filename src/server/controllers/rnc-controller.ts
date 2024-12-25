@@ -4,6 +4,7 @@ import {
   contributorsPaginationSchema,
   updateFileSchema
 } from '@controllers/schemas'
+import { env } from '@config/env'
 
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { rncService } from '@services/rnc-service'
@@ -80,6 +81,10 @@ contributorsRouter.openapi(contributorsByNameSchema, async (c) => {
 
 contributorsRouter.openapi(updateFileSchema, async (c) => {
   try {
+    const { NODE_ENV } = env()
+    if (NODE_ENV !== 'development') 
+      return c.json({ error: 'This endpoint is only available in development' }, 403)
+  
     const { file } = await c.req.parseBody()
 
     if (!file) return c.json({ error: 'File is required' }, 400)

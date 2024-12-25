@@ -191,6 +191,15 @@ export const updateFileSchema = createRoute({
         }
       }
     },
+    403: {
+      description: 'Forbidden',
+      summary: 'This endpoint is only available in development',
+      content: {
+        'application/json': {
+          schema: errorSchema('This endpoint is only available in development')
+        }
+      }
+    },
     500: {
       description: 'Internal Server Error',
       content: {
