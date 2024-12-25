@@ -39,7 +39,22 @@ yarn install
 
 ## Usage
 
-To start the project, you need to run the following command:
+### Database setup
+To start the project, you need to run the following command base on the package manager you are using.:
+
+```bash
+npm run db:push
+# or
+yarn db:push
+# or
+pnpm db:push
+# or
+bun db:push
+```
+if you want to use any other database that [DRIZZLE ORM](https://orm.drizzle.team/) supports, you need to install the database driver and update the `DATABASE_URL` environment variable in the `.env` file and the contributors model on [Model](/src/server/db/contributors.model.ts) file.
+
+### Development
+this command will create the database and the tables needed to store the data.
 
 ```bash
 npm run dev
@@ -50,7 +65,7 @@ pnpm dev
 # or
 bun dev
 ```
-Download the [DGII's](https://dgii.gov.do/app/WebApps/Consultas/RNC/DGII_RNC.zip) RNC contributors file and upload it to the database, then you can access the api at `http://localhost:3000/api`.
+Download the [DGII's](https://dgii.gov.do/app/WebApps/Consultas/RNC/DGII_RNC.zip) RNC contributors file and upload it to the database with the api endpoint `http://localhost:3000/api/contributors/update`.
 
 ## Tools
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white) ![Hono](https://img.shields.io/badge/Hono-000000?style=for-the-badge&logo=hono&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white) ![DRIZZLE ORM](https://img.shields.io/badge/DRIZZLE%20ORM-000000?style=for-the-badge&logo=drizzle&logoColor=white)
